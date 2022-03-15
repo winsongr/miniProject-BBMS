@@ -3,7 +3,10 @@ package controllers
 import (
 	"goadmin/database"
 	"goadmin/models"
+	"strconv"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -39,7 +42,7 @@ func Login(c *fiber.Ctx) error {
 	if user.Id == 0 {
 		c.Status(404)
 		return c.JSON(fiber.Map{
-			"message": "not found",
+			"message": "not found or invalid",
 		})
 	}
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
@@ -48,5 +51,14 @@ func Login(c *fiber.Ctx) error {
 			"message": "incorrect password",
 		})
 	}
-	return c.JSON(user)
+
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(user.Id)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	})
+	token, err := claims.SignedString([]byte("secret"))
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+	return c.JSON(token)
 }
