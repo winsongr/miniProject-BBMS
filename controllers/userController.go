@@ -3,9 +3,9 @@ package controllers
 import (
 	"goadmin/database"
 	"goadmin/models"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func AllUsers(c *fiber.Ctx) error {
@@ -18,8 +18,37 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(&user); err != nil {
 		return err
 	}
-	password, _ := bcrypt.GenerateFromPassword([]byte("1234"), 14)
-	user.Password = password
+
+	user.SetPassword("1234")
 	database.DB.Create(&user)
 	return c.JSON(user)
+}
+func GetUser(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	user := models.User{
+		Id: uint(id),
+	}
+	database.DB.Find(&user)
+	return c.JSON(user)
+}
+func UpdateUser(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	user := models.User{
+		Id: uint(id),
+	}
+	if err := c.BodyParser(&user); err != nil {
+		return err
+	}
+	database.DB.Model(&user).Updates(user)
+	return c.JSON(user)
+}
+func DeleteUser(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+	user := models.User{
+		Id: uint(id),
+	}
+	database.DB.Delete(&user)
+	return  c.JSON(fiber.Map{
+		"message": "user deleted",
+	})
 }
