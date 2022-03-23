@@ -22,7 +22,7 @@ func CreateRole(c *fiber.Ctx) error {
 	database.DB.Create(&role)
 	return c.JSON(role)
 }
-func Getrole(c *fiber.Ctx) error {
+func GetRole(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	role := models.Role{
 		Id: uint(id),
@@ -30,7 +30,7 @@ func Getrole(c *fiber.Ctx) error {
 	database.DB.Find(&role)
 	return c.JSON(role)
 }
-func Updaterole(c *fiber.Ctx) error {
+func UpdateRole(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	role := models.Role{
 		Id: uint(id),
@@ -41,7 +41,7 @@ func Updaterole(c *fiber.Ctx) error {
 	database.DB.Model(&role).Updates(role)
 	return c.JSON(role)
 }
-func Deleterole(c *fiber.Ctx) error {
+func DeleteRole(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 	role := models.Role{
 		Id: uint(id),
