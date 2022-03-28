@@ -1,22 +1,20 @@
 package models
 
 import (
-	"goadmin/database"
 	"math"
 
-	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
-func Paginate(page int) fiber.Map {
-	limit := 5
+func Paginate(db *gorm.DB, entity Entity, page int) fiber.Map {
+	limit := 15
 	offset := (page - 1) * limit
-	var total int64
-	var products []Product
-	database.DB.Offset(offset).Limit(limit).Find(&products)
-	database.DB.Model(&Product{}).Count(&total)
+	data := entity.Take(db, limit, offset)
+	total := entity.Count(db)
+
 	return fiber.Map{
-		"data": products,
+		"data": data,
 		"meta": fiber.Map{
 			"total":     total,
 			"page":      page,

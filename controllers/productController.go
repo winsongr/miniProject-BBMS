@@ -11,7 +11,7 @@ import (
 func AllProducts(c *fiber.Ctx) error {
 	page, _ := strconv.Atoi(c.Query("page", "1"))
 
-	return c.JSON(models.Paginate(page))
+	return c.JSON(models.Paginate(database.DB, &models.User{}, page))
 }
 func CreateProduct(c *fiber.Ctx) error {
 	var product models.Product
