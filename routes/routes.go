@@ -39,6 +39,8 @@ func Setup(app *fiber.App) {
 	app.Put("/products/:id", controllers.UpdateProduct)
 	app.Delete("/products/:id", controllers.DeleteProduct)
 
-	app.Post("/upload",controllers.Upload)
-	app.Static("/uploads","./uploads")
+	app.Post("/upload", controllers.Upload)
+	app.Static("/uploads", "./uploads")
+
+	app.Get("/orders", controllers.AllOrders)
 }
