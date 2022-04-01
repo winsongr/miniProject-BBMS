@@ -8,7 +8,7 @@ type Order struct {
 	LastName   string      `json:"-"`
 	Name       string      `json:"name" gorm:"-"`
 	Email      string      `json:"email"`
-	Total      int         `json:"total" gorm:"-"`
+	Total      float32     `json:"total" gorm:"-"`
 	UpdatedAt  string      `json:"updated_at"`
 	CreatedAt  string      `json:"created_at"`
 	OrderItems []OrderItem `json:"order_items" gorm:"foreignKey:OrderId"`
@@ -30,7 +30,7 @@ func (order *Order) Count(db *gorm.DB) int64 {
 func (order *Order) Take(db *gorm.DB, limit int, offset int) interface{} {
 	var orders []Order
 	db.Preload("OrderItems").Offset(offset).Limit(limit).Find(&orders)
-	for i, _ := range orders {
+	for i := range orders {
 		var total float32 = 0
 		for _, orderItem := range orders[i].OrderItems {
 			total += orderItem.Price * float32(orderItem.Quantity)
