@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"goadmin/database"
+	"goadmin/middlewares"
 	"goadmin/models"
 	"strconv"
 
@@ -9,11 +10,17 @@ import (
 )
 
 func AllUsers(c *fiber.Ctx) error {
+	if err := middlewares.IsAuthorised(c, "users"); err != nil {
+		return err
+	}
 	page, _ := strconv.Atoi(c.Query("page", "1"))
 	return c.JSON(models.Paginate(database.DB, &models.User{}, page))
 }
 
 func CreateUser(c *fiber.Ctx) error {
+	if err := middlewares.IsAuthorised(c, "users"); err != nil {
+		return err
+	}
 	var user models.User
 	if err := c.BodyParser(&user); err != nil {
 		return err

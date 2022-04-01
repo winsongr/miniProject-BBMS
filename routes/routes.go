@@ -15,6 +15,7 @@ func Setup(app *fiber.App) {
 
 	app.Put("/info", controllers.UpdateInfo)
 	app.Put("/password", controllers.UpdatePassword)
+	
 	app.Get("/user", controllers.User)
 	app.Post("/logout", controllers.Logout)
 
@@ -43,5 +44,6 @@ func Setup(app *fiber.App) {
 	app.Static("/uploads", "./uploads")
 
 	app.Get("/orders", controllers.AllOrders)
-	app.Post("/export",controllers.Export)
+	app.Post("/export", controllers.Export)
+	app.Get("/chart", controllers.Chart)
 }
