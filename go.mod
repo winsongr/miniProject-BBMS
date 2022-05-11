@@ -1,4 +1,4 @@
-module goadmin
+module bbms
 
 go 1.17
 
