@@ -32,7 +32,7 @@ func Setup(app *fiber.App) {
 	app.Delete("/roles/:id", controllers.DeleteRole)
 
 	app.Get("/permissions", controllers.AllPermission)
-	app.Post("/permissions", controllers.CreatePermission)
+	app.Post("/permissionss", controllers.CreatePermission)
 
 	app.Get("/products", controllers.AllProducts)
 	app.Post("/products", controllers.CreateProduct)
