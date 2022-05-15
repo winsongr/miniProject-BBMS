@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://image.flaticon.com/icons/png/128/2069/2069743.png">
+
   <h1>Blood Bank</h1>
 </div>
 
