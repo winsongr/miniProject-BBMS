@@ -146,10 +146,10 @@ app.get('/donate', (req, res) => {
 });
 
 app.get('/bank', (req, res) => {
-  if (req.signedCookies.user == null) {
-    res.redirect('/register');
-    return;
-  }
+  // if (req.signedCookies.user == null) {
+  //   res.redirect('/register');
+  //   return;
+  // }
 
   if (req.query.blood == undefined || req.query.blood == '')
     req.query.blood = '(A|B|O|AB)';
